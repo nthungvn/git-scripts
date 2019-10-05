@@ -1,0 +1,1 @@
+D:/repos/Personal/git-scripts/git-cleanup-remote-server.sh
