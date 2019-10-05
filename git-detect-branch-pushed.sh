@@ -14,23 +14,29 @@ isDebug=$2
 
 declare -a moduleChanged
 
-for repo in */
+modules=*/
+
+for repo in ${modules[@]}
 do
     cd $repo
     print ""
 
     echo "The repo: $repo is in-progressing"
-    latest_tag=`git describe --abbrev=0`
-    latest_tag_hash=`git show-ref -s $latest_tag`
+
+    git checkout $branch > /dev/null 2>&1
+    git pull origin > /dev/null 2>&1
+
+    latest_tag_hash=`git rev-list --tags --max-count=1`
+    latest_tag=`git describe --tags $latest_tag_hash`
     print "   - The latest tag $latest_tag with hash $latest_tag_hash"
 
-
-    latest_commit=`git ls-remote origin -h $branch`
-    latest_commit_hash=($latest_commit) #Point to element at index 0 by default
+    latest_commit_hash=`git rev-parse HEAD`
     print "   - The latest commit hash $latest_commit_hash"
 
-    if [ $latest_tag_hash != $latest_commit_hash ]; then
-        print "Repo $repo has changed and pushed code"
+    numberOfCommitFromParent=`git rev-list --count $latest_commit_hash ^$latest_tag`
+
+    if [ $numberOfCommitFromParent -gt 1 ]; then # We compare with 1 due to we skip 1 commit increase version
+        print "Repo $repo has changed and pushed code due to has $numberOfCommitFromParent from parent"
         moduleChanged+=($repo)
     else
         print "Repo $repo is up to date"
