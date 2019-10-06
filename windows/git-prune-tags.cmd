@@ -1,0 +1,1 @@
+../git-prune-tags.sh
