@@ -1,5 +1,3 @@
-#/bin/bash
-
 for name in */
 do
 	echo "Prune tag for repo $name"

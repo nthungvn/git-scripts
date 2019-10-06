@@ -1,5 +1,3 @@
-#! /bin/bash
-
 # Usage:
 # - $1 is tagName
 # - $2 is repo link

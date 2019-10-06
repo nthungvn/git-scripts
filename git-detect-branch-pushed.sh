@@ -1,5 +1,3 @@
-#!/bin/bash
-
 #Usage: script_name $branch $isDebug
 
 function print {
